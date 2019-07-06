@@ -1,0 +1,16 @@
+{
+  "mstores": [
+    {
+      "name" : "suvm",
+      "annotation_symbol": "suvm",
+      "function_annotation_name": "__cosmix_suvm_annotation",
+      "type": "cached",
+      "storage": "mem",
+      "TLB" : true,
+      "EvictThread" : true,
+      "BoundsAllocation": false,
+      "LowerBound": 10,
+      "UpperBound": 100000000
+    }
+  ]
+}

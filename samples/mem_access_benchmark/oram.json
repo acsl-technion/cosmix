@@ -1,0 +1,11 @@
+{
+  "mstores": [
+    {
+      "name" : "ORAM",
+      "annotation_symbol": "ORAM",
+      "function_annotation_name": "__cosmix_oram_annotation",
+      "type": "direct",
+      "storage": "mem"
+    }
+  ]
+}

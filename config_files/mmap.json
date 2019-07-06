@@ -1,0 +1,14 @@
+{
+  "mstores": [
+    {
+      "name" : "storage",
+      "annotation_symbol": "storage",
+      "function_annotation_name": "__cosmix_storage_annotation",
+      "type": "cached",
+      "storage": "file",
+      "TLB" : true,
+      "EvictThread" : true,
+      "PageSize" : 4096
+    }
+  ]
+}
