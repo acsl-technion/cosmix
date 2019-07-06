@@ -52,6 +52,11 @@ cd validation/regression
 We provide different sample applications under the samples/ directory with example Makefiles with the different CoSMIX compilation flags, which may be customized.
 CoSMIX expects a whole program bitcode file to operate on as it is implemented as an LLVM Module pass. To that end, LLVM Gold Plugin, a link-time optimizer can generate whole program bit code files.
 
+### Run CoSMIX inside a contianer
+```shell
+docker build -t "cosmix" .
+```
+
 ## License
 CoSMIX is licensed under the BSD 2-Clause License. Please refer to the `LICENSE.txt` file for more details.
 
@@ -73,14 +78,14 @@ We release CoSMIX source code in the hope of benefiting others. You are kindly a
 <details>
   <summary>BibTeX</summary>
 
-  @inproceedings {cosmix::atc19,
-	  author = {Meni Orenbach and Yan Michalevsky and Christof Fetzer and Mark Silberstein},
-	  title = {CoSMIX: A Compiler-based System for Secure Memory Instrumentation and Execution in Enclaves},
-	  booktitle = {2019 {USENIX} Annual Technical Conference ({USENIX} {ATC} 19)},
-	  year = {2019},
-	  address = {Renton, WA},
-	  url = {https://www.usenix.org/conference/atc19/presentation/orenbach},
-	  publisher = {{USENIX} Association},
-  }
+    @inproceedings {cosmix::atc19,
+    author = {Meni Orenbach and Yan Michalevsky and Christof Fetzer and Mark Silberstein},
+    title = {CoSMIX: A Compiler-based System for Secure Memory Instrumentation and Execution in Enclaves},
+    booktitle = {2019 {USENIX} Annual Technical Conference ({USENIX} {ATC} 19)},
+    year = {2019},
+    address = {Renton, WA},
+    url = {https://www.usenix.org/conference/atc19/presentation/orenbach},
+    publisher = {{USENIX} Association},
+    }
 
 </details>
