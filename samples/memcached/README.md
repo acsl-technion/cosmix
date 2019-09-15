@@ -6,6 +6,10 @@ To compile Memcached with SUVM support, use the Cosmix.mk Makefile.
 Please note, since CoSMIX currently relies on function signatures as source for annotations, Memcached cannot be built natively for this source code. Instead, you must link with an empty
 function, such as provided by temp.c file. See the example to build natively with the Makefile CoSMIX.mk.
 
+To use SUVM with memcached with Graphene-SGX enclaves, please find the sample memcached.manifest.template, Graphene.mk files.
+They expect a compiled memcached_suvm (using Cosmix.mk) placed under the name memcached_suvm_orig in the Graphene path $(GRAPHENEDIR)/LibOS/shim/test/apps/memcached. 
+This allows Graphene-SGX to correctly find and sign libraries memcached reiles on and later verify they are indeed loaded correctly inside the enclave.
+
 ## Dependencies
 
 * libevent, http://www.monkey.org/~provos/libevent/ (libevent-dev)

@@ -63,7 +63,9 @@ CoSMIX can be used with a Library Operating System (LibOS) that allows running u
 Examples of such tools are: Graphene-SGX, Anjuna and SCONE. 
 * [`Graphene-SGX`](https://github.com/oscarlab/graphene) is an open source LibOS. To run applications with mstore support inside SGX enclaves with the help of Graphene-SGX follow the instruction provided in Graphene-SGX documents.
 Note, the SUVM mstore manages evicted pages in untrusted memory. Therefore, to run applications with SUVM mstore support inside Graphene-SGX, we modified Graphene-SGX and added a new
-untrusted memory allocation system call. The modified Graphene-SGX code will be added shortly to the repository. The use of the modified Graphene-SGX code is at your own risk.
+untrusted memory allocation system call, which is exposed directly to applications executing inside Graphene-SGX enclaves.
+[`Modified Graphene-SGX code`](https://github.com/acsl-technion/graphene/tree/untrusted_alloc)
+Note, using the modified Graphene-SGX code is at your own risk.
 
 ## License
 CoSMIX is licensed under the BSD 2-Clause License. Please refer to the `LICENSE.txt` file for more details.

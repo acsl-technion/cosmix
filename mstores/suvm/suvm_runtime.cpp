@@ -95,10 +95,17 @@ void* allocate_untrusted_buffer(size_t size)
 #elif ANJUNA_BUILD
 #warning Using alloc_untrusted system call exported by Anjuna Runtime
 	int ret = syscall(__NR_alloc_untrusted, alloc_size, &bs_ptr);
-    if (ret < 0) {
-        printf("Failed allocating untrusted memory (%d)\n", ret);
-        return NULL;
-    }
+	if (ret < 0) {
+		printf("Failed allocating untrusted memory (%d)\n", ret);
+		return NULL;
+	}
+#elif GRAPHENE_BUILD
+#warning Using alloc_untrusted system call exported by a modified Graphene-SGX version
+	int ret = syscall(310, alloc_size, &bs_ptr);
+    	if (ret < 0 || bs_ptr == NULL) {
+        	printf("Failed allocating untrusted memory (%d)\n", ret);
+	  	exit(-1);
+    	}
 #else
 	// Note: workaround for SCONE. They don't have page cache, 
 	// so allocating annonymous memory backed by "a file" will actually be untrusted memory
@@ -123,6 +130,7 @@ int suvm_mstore_init(void* priv_data)
 	}
 
 #ifndef SDK_BUILD
+	
     uint64_t mask = 0;
     mask |= 0x00000001;
     mask |= 0x00000002;
@@ -190,7 +198,6 @@ int suvm_mstore_init(void* priv_data)
 #endif
 
 	g_is_initialized = 1;
-	
 	return 0;
 }
 
@@ -234,7 +241,7 @@ unsigned char* try_evict_page(item_t* pce)
 				0,
 				mac);
 
-		ASSERT (ret == SGX_SUCCESS);
+		ASSERT (ret == SGX_SUCCESS);	
 	}
 
 	g_page_table->remove(page_index);
@@ -383,7 +390,6 @@ void suvm_flush(void* ptr, size_t size)
 			nonce_casted[2] = rand();
 #endif
 			unsigned char* epc_page_ptr = (unsigned char*)(g_suvm_base_page_cache_ptr + it->epc_page_index * SUVM_PAGE_SIZE);
-			
 			sgx_status_t ret = sgx_rijndael128GCM_encrypt(&g_eviction_key,
 					epc_page_ptr,
 					SUVM_PAGE_SIZE,

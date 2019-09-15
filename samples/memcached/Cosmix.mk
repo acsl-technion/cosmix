@@ -9,9 +9,9 @@ current_dir = $(shell pwd)
 all: memcached_native memcached_suvm
 
 cosmix:
-	make -C ../../pass -f Makefile SDK_BUILD="-DSCONE_BUILD" NO_COUNTERS="-DNO_COUNTERS" RELEASE_BUILD="-DRELEASE_BUILD" ASYNC_EVICTS="-DASYNC_EVICTS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=25";
-	make -C ../../runtime -f Makefile SDK_BUILD="-DSCONE_BUILD" NO_COUNTERS="-DNO_COUNTERS" RELEASE_BUILD="-DRELEASE_BUILD" ASYNC_EVICTS="-DASYNC_EVICTS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=25";
-	make -C ../../mstores -f Makefile SDK_BUILD="-DSCONE_BUILD" NO_COUNTERS="-DNO_COUNTERS" RELEASE_BUILD="-DRELEASE_BUILD" ASYNC_EVICTS="-DASYNC_EVICTS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=25";
+	make -C ../../pass -f Makefile SDK_BUILD="-DGRAPHENE_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=25";
+	make -C ../../runtime -f Makefile SDK_BUILD="-DGRAPHENE_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=25";
+	make -C ../../mstores -f Makefile SDK_BUILD="-DGRAPHENE_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=25";
 
 memcached_suvm: memcached_combined_ir.bc cosmix
 	$(LLVM_BIN)/llvm-link memcached_combined_ir.bc ../../runtime/cosmix_runtime.bc -o test_wrappers.bc
@@ -22,14 +22,14 @@ memcached_suvm: memcached_combined_ir.bc cosmix
 	$(LLVM_BIN)/opt -O3 < test_inst.bc > test_opt.bc
 	$(LLVM_BIN)/llc -relocation-model=pic -filetype=obj test_opt.bc -o test.o
 	echo "g++ COSMIX => memcached_suvm"
-	g++ test.o -o memcached_suvm -L/usr/src/myapp -L../../libs -L../../../event/lib -lpthread -levent -lsgx_tcrypto
+	g++ test.o -o memcached_suvm -L../../libs -lpthread -levent -lsgx_tcrypto 
 
 memcached_native : memcached_combined_ir.bc temp.c
 	$(LLVM_BIN)/clang -emit-llvm -c temp.c -o temp.bc
 	$(LLVM_BIN)/llvm-link memcached_combined_ir.bc temp.bc -o memcached_wrappers.bc
 	$(LLVM_BIN)/llc -relocation-model=pic -filetype=obj memcached_wrappers.bc -o memcached.o
 	echo "g++ => memcached_native"
-	g++ memcached.o -o memcached_native -L../../../event/lib -lpthread -levent
+	g++ memcached.o -o memcached_native -lpthread -levent
 
 clean:
 	make -C ../../pass -f Makefile clean &> /dev/null;
