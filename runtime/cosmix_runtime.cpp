@@ -259,8 +259,20 @@ extern void mstore_write_back(void* ptr, void* src, size_t size);
 extern void mstore_open(char* filename, int fd, char always_register, char* registered);
 extern void mstore_close(int fd);
 
+#ifndef SDK_BUILD
 extern ssize_t mstore_write(int fd, const void* buf, size_t count);
 extern ssize_t mstore_read(int fd, void* buf, size_t count);
+
+ssize_t default_mstore_write(int fd, const void* buf, size_t count)
+{
+	return write(fd,buf,count);
+}
+ssize_t default_mstore_read(int fd, void* buf, size_t count)
+{
+	return read(fd,buf,count);
+}
+
+#endif
 
 uintptr_t direct_mstore_get_mpage_cache_base_ptr()
 {
@@ -285,15 +297,6 @@ void default_mstore_close(int fd)
 void* default_mstore_alloc(size_t size, void* priv_data)
 {
 	return nullptr;
-}
-
-ssize_t default_mstore_write(int fd, const void* buf, size_t count)
-{
-	return write(fd,buf,count);
-}
-ssize_t default_mstore_read(int fd, void* buf, size_t count)
-{
-	return read(fd,buf,count);
 }
 
 extern void* _0__cosmix_link(const void* ptr, int ptr_size, char is_vector_type, char dirty);

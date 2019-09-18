@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#ifndef SDK_BUILD
 struct s_file_alloc_privdata
 {
     void *start;
@@ -14,6 +15,8 @@ struct s_file_alloc_privdata
     off_t off;
     char alloc_succeeded;
 };
+
+#endif
 
 /* Useful MACROS */
 #define likely(x)       __builtin_expect((x),1)
