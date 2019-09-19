@@ -34,7 +34,7 @@ endif
 
 ifeq ($(SDK_BUILD), -DSDK_BUILD)
 SGX_COMMON_CFLAGS += -DSGX
-Samples_Include_Paths := -I. -I../common -I$(SGX_SDK)/include
+Samples_Include_Paths := -I. -I../common  -I$(SGX_SDK)/include -I$(SGX_SDK)/include/tlibc -I$(SGX_SDK)/include/libcxx 
 Common_C_Cpp_Flags := $(SGX_COMMON_CFLAGS) -nostdinc -fvisibility=hidden -fpie -fstack-protector $(Samples_Include_Paths) -fno-builtin-printf -fPIC -I. 
 Samples_Cpp_Flags :=  $(Common_C_Cpp_Flags) -nostdinc++ -std=c++11 -fno-builtin-printf -fpermissive -I.
 else 

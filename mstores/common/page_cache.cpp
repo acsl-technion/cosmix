@@ -1,7 +1,6 @@
 #include "page_cache.h"
 #include "SyncUtils.h"
 #include "mstore_common.h"
-#include <stdio.h>
 
 // Note: not thread safe, responsibility of the caller
 //
@@ -19,7 +18,6 @@ void init_page_cache(struct page_cache* pc, uintptr_t* base_page_cache_ptr, size
     //
 	*base_page_cache_ptr &= ~0xFFF; 
 
-//printf("pc %p\n", *base_page_cache_ptr);
 	for (size_t i=0;i<page_cache_size/page_size;i++)
 	{
 		unsigned char* page = (unsigned char*)(*base_page_cache_ptr + i * page_size);

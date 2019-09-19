@@ -54,7 +54,7 @@ void* SlabAllocator::alloc(size_t size)
         }
     }
 
-    printf("Cannot find space to allocate request for size %ld. aborting\n", size);
+    g_debug("Cannot find space to allocate request for size %ld. aborting\n", size);
     abort();
 }
 
@@ -75,7 +75,7 @@ void SlabAllocator::free_alloc(void* ptr)
         }
     }
 
-    printf("Cannot free since cannot find allocation ptr %p\n", ptr);
+    g_debug("Cannot free since cannot find allocation ptr %p\n", ptr);
     abort();
 }
 
@@ -93,6 +93,6 @@ size_t SlabAllocator::alloc_size(void* ptr)
         }
     }
 
-    printf("Cannot find allocation size for ptr %p\n", ptr);
+    g_debug("Cannot find allocation size for ptr %p\n", ptr);
     abort();
 }

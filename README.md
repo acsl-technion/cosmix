@@ -9,7 +9,7 @@ For more information, please refer the following paper:
 * [`Runtime/`](runtime/) - CoSMIX Runtime.
 * [`Memory stores/`](mstores/) - Example of three different memory stores, and common building blocks they all use internally.
 * [`Samples/`](samples/) - Applications of different flavours using CoSMIX, with Makefile examples of the different compilation and customization options.
-* [`Configuration/`](config/) - Memory stores sample configuration files.
+* [`Configuration/`](config_files/) - Memory stores sample configuration files.
 
 ## Building
 CoSMIX build was tested on Ubuntu 16.04 and Ubuntu 18.04 with LLVM 6.0.0.
@@ -66,6 +66,9 @@ Note, the SUVM mstore manages evicted pages in untrusted memory. Therefore, to r
 untrusted memory allocation system call, which is exposed directly to applications executing inside Graphene-SGX enclaves.
 [`Modified Graphene-SGX code`](https://github.com/acsl-technion/graphene/tree/untrusted_alloc)
 Note, using the modified Graphene-SGX code is at your own risk.
+* [`Intel SGX SDK`](https://github.com/intel/linux-sgx) is an open source SGX enclave framework by Intel. It allows partitioning applications into trusted and untrusted components,
+where the trusted code and data are executed and accessed inside an enclave. To run such enclaves with mstore support please refer to
+[`the SGX SDK samples directory`](sgxsdk_samples/) for example use cases.
 
 ## License
 CoSMIX is licensed under the BSD 2-Clause License. Please refer to the `LICENSE.txt` file for more details.

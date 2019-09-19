@@ -120,6 +120,8 @@
 
 using namespace llvm;
 
+static cl::opt<std::string> opt_StartupFunctionMain("startup_func", cl::Optional, cl::init("main"),
+ 		cl::desc("Startup function name (defaults to main)"));
 
 static cl::opt<bool> opt_FixRealFunctions("fix_real_functions", cl::Optional, cl::init(false),
 		cl::desc("temp solution"));
@@ -516,7 +518,7 @@ public:
 
 		// 2. Allocate mstore memory for newG and initialize it with GV's data
 		//
-		IRBuilder<> IRB(M->getFunction("main")->begin()->getFirstNonPHIOrDbgOrLifetime());
+		IRBuilder<> IRB(M->getFunction(opt_StartupFunctionMain)->begin()->getFirstNonPHIOrDbgOrLifetime());
 		Function* F = M->getFunction("__cosmix_init_global_" + mstoreType.str());
 		assert (F && "Cannot find global init function");
 
@@ -2503,7 +2505,7 @@ public:
 		//
 		for (auto F = M.begin(), Fend = M.end(); F != Fend; ++F) 
 		{
-			if (F->getName().equals("main")) 
+			if (F->getName().equals(opt_StartupFunctionMain)) 
 			{
 				UnifyFunctionExitNodes& ufe = getAnalysis<UnifyFunctionExitNodes>(*F);
 				Cosmix.visitMainFunc(&*F, ufe.getReturnBlock());

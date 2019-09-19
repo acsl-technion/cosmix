@@ -18,14 +18,21 @@
 #include <sgx_tcrypto.h>
 #include <sgx_trts.h>
 #include <time.h>
-#include <pthread.h>
 
 #ifndef SDK_BUILD
+#include <pthread.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+
+static pthread_cond_t cv;
+static pthread_mutex_t lock;
+
+#else
+extern "C" void ocall_untrusted_alloc(void** umem, size_t size);
+
 #endif
 
 long long g_major_faults = 0;
@@ -33,9 +40,6 @@ long long g_minor_faults = 0;
 long long g_inc_ref_num = 0;
 long long g_unlink_num = 0;
 long long g_evictions = 0;
-
-static pthread_cond_t cv;
-static pthread_mutex_t lock;
 
 // Maximum number of entries we support to be evicted simultaneously 
 const int MAX_NUM_OF_THREADS_OPTIMIZATION = 10;
@@ -185,6 +189,7 @@ int suvm_mstore_init(void* priv_data)
 	}
 #endif
 
+#ifndef SDK_BUILD
 #ifdef ASYNC_EVICTS
 #warning "### SUVM ENABLED ASYNC EVICTS ###"
 	int ret = pthread_cond_init(&cv, NULL);
@@ -195,6 +200,7 @@ int suvm_mstore_init(void* priv_data)
 	pthread_t t;
 	ret = pthread_create(&t, NULL, evict_thread, NULL);
 	ASSERT(!ret);
+#endif
 #endif
 
 	g_is_initialized = 1;
@@ -280,9 +286,11 @@ void* suvm_mpf_handler_c(void* bs_page) {
 	// No page available, need to evict
 	if (free_epc_ptr == nullptr)
 	{
+#ifndef SDK_BUILD
 #ifdef ASYNC_EVICTS
 		//wakeup_thread;
 		pthread_cond_signal(&cv);
+#endif
 #endif
 
 		item_t* page_to_evict = g_page_table->get_page_index_to_evict(m_ref_count);
@@ -326,6 +334,7 @@ void* suvm_mpf_handler_c(void* bs_page) {
     return res;
 }
 
+#ifndef SDK_BUILD
 void* evict_thread(void *v) {
 	pthread_mutex_lock(&lock);
 	while (1) {
@@ -348,6 +357,7 @@ void* evict_thread(void *v) {
 
 	return NULL;
 }
+#endif
 
 // Debug method to validate reference count is zero for all pages in the PageTable. Expected to be called in the end of the encalve life.
 void debug_ref_count()

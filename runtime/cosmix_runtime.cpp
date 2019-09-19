@@ -74,6 +74,7 @@ extern "C" {
 #define TRUE 1
 #define FALSE 0
 
+// global print function - declared in common header
 DBG_FUNC g_debug;
 
 // TLB Section
@@ -108,9 +109,6 @@ extern void  tc_free(void* ptr);
 
 #endif
 
-// global print function - declared in common header
-// DBG_FUNC g_debug;
-
 __thread struct s_victim_cache gt_TLB[TLB_SIZE];
 
 static __thread void* gt_direct_buffer;
@@ -138,8 +136,8 @@ static void* __cosmix_get_mstore_direct_buffer(size_t mpage_size)
 /* Helper debugging functions */
 
 #ifdef SDK_BUILD
-extern void ocall_debug(const char* str);
-extern void ocall_untrusted_alloc(void** ptr, size_t size);
+extern "C" void ocall_debug(const char* str);
+extern "C" void ocall_untrusted_alloc(void** ptr, size_t size);
 #endif
 
 void __cosmix_debug(const char *fmt, ...)
@@ -158,10 +156,7 @@ void __cosmix_debug(const char *fmt, ...)
 
 void __cosmix_initialize() 
 {
-#ifdef DBG_PRINT
 	g_debug = __cosmix_debug; 
-#endif	
-
 	g_storage_used = FALSE;
 }
 
