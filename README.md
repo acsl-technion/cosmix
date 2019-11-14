@@ -60,7 +60,9 @@ docker run -it cosmix /bin/bash
 
 ### Running applications compiled by CoSMIX in enclaves
 CoSMIX can be used with a Library Operating System (LibOS) that allows running unmodified applications inside SGX enclaves.
-Examples of such tools are: Graphene-SGX, Anjuna and SCONE. 
+Examples of such tools are: Graphene-SGX, [Anjuna Runtime](https://www.anjuna.io) and SCONE.
+
+* The Anjuna Runtime is a solution developed by [Anjuna](https://www.anjuna.io) for seamless execution of unmodified applications inside enclaves. To obtain access to the Anjuna Runtime please reach out to [info@anjuna.io](info@anjuna.io).
 * [`Graphene-SGX`](https://github.com/oscarlab/graphene) is an open source LibOS. To run applications with mstore support inside SGX enclaves with the help of Graphene-SGX follow the instruction provided in Graphene-SGX documents.
 Note, the SUVM mstore manages evicted pages in untrusted memory. Therefore, to run applications with SUVM mstore support inside Graphene-SGX, we modified Graphene-SGX and added a new
 untrusted memory allocation system call, which is exposed directly to applications executing inside Graphene-SGX enclaves.
