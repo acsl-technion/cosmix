@@ -439,7 +439,7 @@ public:
 
 			//m_DeclarationFunctions.insert(F);
 		}
-		
+
 		GET_FUNC(__cosmix_debug_interal);
 
 		GET_FUNC(__cosmix_write_page);
@@ -1398,6 +1398,11 @@ public:
 			return "memalign";
 		}
 
+		if (name.contains("mmap"))
+		{
+			return "mmap";
+		}
+
 		assert(false && "[ERROR] Invalid allocation function encouterned while trying to set annotation\n");
 		return "";
 	}
@@ -2010,6 +2015,7 @@ public:
 				ReplaceAllocatorFunctionDeclarations("__cosmix_malloc_" + mstore_name, "__cosmix_malloc_" + mstore_name + ".temp");
 				ReplaceAllocatorFunctionDeclarations("__cosmix_calloc_" + mstore_name, "__cosmix_calloc_" + mstore_name + ".temp");
 				ReplaceAllocatorFunctionDeclarations("__cosmix_memalign_" + mstore_name, "__cosmix_memalign_" + mstore_name + ".temp");
+				ReplaceAllocatorFunctionDeclarations("__cosmix_mmap_" + mstore_name, "__cosmix_mmap_" + mstore_name + ".temp");
 			}
 			else
 			{
@@ -2198,6 +2204,12 @@ public:
 				CreateMstoreFunction("__cosmix_memalign_template", "__cosmix_memalign_" + mstore_name + ".temp");
 				SetMstoreFunction("__cosmix_memalign_" + mstore_name + ".temp", "mstore_alloc", mstore_name + "_mstore_alloc");
 				SetMstoreFunction("__cosmix_memalign_" + mstore_name + ".temp", "mstore_tag", "mstore_tag_" + std::to_string(index));
+
+				// TODO: bound based replacements
+				CreateFunctionDeclaration("mmap", "__cosmix_mmap_" + mstore_name);				
+				CreateMstoreFunction("__cosmix_mmap_template", "__cosmix_mmap_" + mstore_name + ".temp");
+				SetMstoreFunction("__cosmix_mmap_" + mstore_name + ".temp", "mstore_alloc", mstore_name + "_mstore_alloc");
+				SetMstoreFunction("__cosmix_mmap_" + mstore_name + ".temp", "mstore_tag", "mstore_tag_" + std::to_string(index));
 			}
 			else
 			{

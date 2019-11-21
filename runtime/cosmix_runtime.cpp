@@ -1928,26 +1928,7 @@ void __cosmix_qsort(void *base, size_t nel, size_t width, int (*compar)(const vo
 	free(native_ptr);
 }
 
-char __cosmix_is_reg_file(int fd)
-{
-	if (fd < 0)
-	{
-		return FALSE;
-	}
-
-	struct stat _stat;
-	fstat(fd, &_stat);
-	return S_ISREG(_stat.st_mode);
-}
-
 void* __cosmix_mmap_template(void *start, size_t len, int prot, int flags, int fd, off_t off) {
-	// For now just support file-backed mstores for mmap calls
-	//
-	if (!__cosmix_is_reg_file(fd))
-	{
-		return mmap(start, len, prot, flags, fd, off);
-	}
-
 	struct s_file_alloc_privdata priv_data;
 	priv_data.fd = fd;
 	priv_data.prot = prot;
@@ -1956,8 +1937,6 @@ void* __cosmix_mmap_template(void *start, size_t len, int prot, int flags, int f
 	priv_data.start = start;
 	priv_data.alloc_succeeded = FALSE;
 
-	// Until shmem fault handler is available - always use MAP_PRIVATE scheme
-	//
 	void* ptr = mstore_alloc(len, (void*)&priv_data);
 
 	if (priv_data.alloc_succeeded)
@@ -1969,12 +1948,6 @@ void* __cosmix_mmap_template(void *start, size_t len, int prot, int flags, int f
 
 	return mmap(start, len, prot, flags, fd, off);
 }
-
-// void* __cosmix_mmap64_template(void *start, size_t len, int prot, int flags, int fd, off_t off) {
-// 	// Use same implementation as mmap
-// 	//
-//     return __cosmix_mmap_template(start, len, prot, flags, fd, off);
-// }
 
 int __cosmix_munmap(void *start, size_t len) 
 {
