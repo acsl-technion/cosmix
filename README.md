@@ -45,7 +45,7 @@ make
 ### Samples
 It is possible to validate CoSMIX was installed and works as expected by running a small validation suite that uses the SUVM mstore.
 ```shell
-cd validation/regression
+cd samples/regression
 ./run_validation_suite.sh 
 ```
 

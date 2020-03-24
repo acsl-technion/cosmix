@@ -98,7 +98,7 @@ void* allocate_untrusted_buffer(size_t size)
 	ocall_untrusted_alloc(&bs_ptr, alloc_size);
 #elif ANJUNA_BUILD
 #warning Using alloc_untrusted system call exported by Anjuna Runtime
-	int ret = syscall(__NR_alloc_untrusted, alloc_size, &bs_ptr);
+	int ret = syscall(346, alloc_size, &bs_ptr);
 	if (ret < 0) {
 		printf("Failed allocating untrusted memory (%d)\n", ret);
 		return NULL;
