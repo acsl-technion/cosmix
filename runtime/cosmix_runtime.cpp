@@ -1409,6 +1409,23 @@ char* __cosmix_strchr(const char *s , int c) {
 	return (char*)res;
 }
 
+int __cosmix_vsnprintf(char *str, size_t size, const char *format, va_list ap)
+{
+	// TODO: should consider varargs as potential cosmix pointers (right now there's a workaround in the cosmix pass to deal with printf functions).
+	
+	if (!IS_COSMIX_PTR(str))
+	{
+		int res = vsnprintf(str,size,format,ap);
+		return res;
+	}
+
+        char* native_ptr = (char*)malloc(size);
+	int res = vsnprintf(native_ptr, size, format, ap);
+        __cosmix_memcpy(native_ptr, str, res+1 >= size ? size : res+1);
+	free(native_ptr);
+	return res;
+}
+
 int __cosmix_strcmp(const char *s1, const char *s2)
 {
 	int is_s1_cosmix = IS_COSMIX_PTR(s1);

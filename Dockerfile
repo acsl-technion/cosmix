@@ -61,4 +61,4 @@ RUN make
 RUN echo "COSMIX image constructed succesfully, to enter image run"
 RUN echo "docker run -it cosmix /bin/bash"
 
-RUN echo ".1" > /dev/null && git pull
+RUN echo ".2" > /dev/null && git pull
