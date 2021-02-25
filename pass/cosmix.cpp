@@ -1769,13 +1769,21 @@ public:
 	{
 		Function* F = M->getFunction(funcName);
 		assert(F);
+		SmallPtrSet<CallInst*, 4> CIs;
 
 		for (auto User : F->users())
 		{
-			InlineFunctionInfo ifi;
 			CallInst* CI = dyn_cast<CallInst>(&*User);
-			assert(CI);
-			InlineFunction(CI, ifi);
+			if(CI && !CIs.count(CI))
+			{
+				CIs.insert(CI);
+			}
+		}
+
+		for (auto CI : CIs)
+		{
+                        InlineFunctionInfo ifi;
+                        InlineFunction(CI, ifi);
 		}
 	}
 
