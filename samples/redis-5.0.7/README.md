@@ -4,11 +4,12 @@ This README is just a fast *quick start* document. You can find more detailed do
 To add SUVM mstore support, you should compile using the Cosmix.mk Makefile. I.e., use the command:
 make -f Cosmix.mk
 
-To use redis with SUVM mstore support inside Graphene-SGX enclaves, please find the sample redis-server_suvm.manifest.template, Graphene.mk files.
-They expect a compiled redis-server_suvm in the src/ dir (by using Cosmix.mk) and setting the appropriate $(GRAPHENEDIR) in the Graphene.mk file (absolute path is required in current Graphene-SGX release).
-This allows Graphene-SGX to correctly find and sign redis and its dependencies and verify they are indeed loaded correctly inside the enclave.
-Running inside Graphene-SGX is with the command: 
-SGX=1 ./pal_loader redis-server_suvm --save "" --appendonly no --protected-mode no 
+To use redis with SUVM mstore support inside Graphene-SGX enclaves, please find the sample *redis-server\_suvm.manifest.template*, Graphene.mk files.  
+They expect a compiled *redis-server\_suvm* in the *src* dir (by using *Cosmix.mk*) and setting the appropriate $(GRAPHENEDIR) in the *Graphene.mk* file (absolute path is required in current Graphene-SGX release).  
+This allows Graphene-SGX to correctly find and sign redis and its dependencies and verify they are indeed loaded correctly inside the enclave.  
+Running inside Graphene-SGX is done with the command: 
+
+    SGX=1 ./pal_loader redis-server_suvm --save "" --appendonly no --protected-mode no 
 
 What is Redis?
 --------------

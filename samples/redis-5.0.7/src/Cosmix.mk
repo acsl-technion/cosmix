@@ -10,9 +10,9 @@ all: redis-server_native redis-server_scone redis-server_suvm
 SCONE_CXX=docker run --rm --device=/dev/isgx -v "$(current_dir)"/../../..:/usr/src/myapp -w /usr/src/myapp/samples/redis/src sconecuratedimages/crosscompilers:alpine scone-g++
 
 cosmix:
-	make -C ../../../pass -f Makefile SDK_BUILD="-DGRAPHENE_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=20";
-	make -C ../../../runtime -f Makefile SDK_BUILD="-DGRAPHENE_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=20";
-	make -C ../../../mstores -f Makefile SDK_BUILD="-DGRAPHENE_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=20";
+	make -C ../../../pass -f Makefile SDK_BUILD="-DANJUNA_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=20";
+	make -C ../../../runtime -f Makefile SDK_BUILD="-DANJUNA_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=20";
+	make -C ../../../mstores -f Makefile SDK_BUILD="-DANJUNA_BUILD" NO_COUNTERS="-DNO_COUNTERS" SUVM_PAGE_CACHE_BITS="-DSUVM_PAGE_CACHE_BITS=20";
 
 
 # Prebuilt for clarity. To reproduce run the following commands:

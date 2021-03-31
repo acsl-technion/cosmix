@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# FlameGraph can be cloned from https://github.com/brendangregg/FlameGraph
+
 FLAMEGRAPH=${HOME}/Downloads/FlameGraph/flamegraph.pl
 STACKCOLLAPSE=${HOME}/Downloads/FlameGraph/stackcollapse-perf.pl
 

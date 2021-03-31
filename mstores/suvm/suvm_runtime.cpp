@@ -99,16 +99,16 @@ void* allocate_untrusted_buffer(size_t size)
 #elif ANJUNA_BUILD
 #warning Using alloc_untrusted system call exported by Anjuna Runtime
 	int ret = syscall(346, alloc_size, &bs_ptr);
-	if (ret < 0) {
+	if (ret < 0 || bs_ptr == NULL) {
 		printf("Failed allocating untrusted memory (%d)\n", ret);
-		return NULL;
+		exit(-1)
 	}
 #elif GRAPHENE_BUILD
 #warning Using alloc_untrusted system call exported by a modified Graphene-SGX version
 	int ret = syscall(310, alloc_size, &bs_ptr);
     	if (ret < 0 || bs_ptr == NULL) {
         	printf("Failed allocating untrusted memory (%d)\n", ret);
-	  	exit(-1);
+			exit(-1);
     	}
 #else
 	// Note: workaround for SCONE. They don't have page cache, 
